@@ -13,14 +13,14 @@ class TodoListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'Todo:list {--id=}';
+    protected $signature = 'todo:list {--id=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'return all user with role';
+    protected $description = 'return all todos with role or --id give todo create by someone';
 
     /**
      * Execute the console command.
@@ -33,7 +33,7 @@ class TodoListCommand extends Command
         if($id){
             $headers=["id","name","created_by"];
             $user = User::find($id);
-            $data = Todo::select("id","name","created_by")->get();
+            $data = Todo::select("id","name","created_by")->where('created_by',$id)->get();
             $this->info($user->name." list of todos");
             $this->table($headers,$data,$tableStyle="default");
         }
