@@ -8,3 +8,7 @@
     php artisan user:user --operation=c --email=123@gmail --name=123
 7. laravel cmd for user delete:
     php artisan user:user --operation=d --id=2
+8. laravel cmd for todo list:
+    php artisan todo:list 
+9. laravel cmd for todo list create by id:
+    php artisan todo:list --id

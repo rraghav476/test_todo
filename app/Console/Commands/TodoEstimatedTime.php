@@ -12,7 +12,7 @@ class TodoEstimatedTime extends Command
      *
      * @var string
      */
-    protected $signature = 'Todo:check-estimated-time';
+    protected $signature = 'todo:check';
 
     /**
      * The console command description.

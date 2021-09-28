@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('Todo:check-estimated-time')->everyMinute();
+        $schedule->command('todo:check')->hourly();
     }
 
     /**
