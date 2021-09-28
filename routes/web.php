@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
+use App\Models\Webhook;
+use Database\Seeders\Admin;
+// use Database\Seeders\webhook;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +27,10 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function(){
     Route::get('/dashboard', function () {
+        if(Gate::check('Admin')){
+            $data = Webhook::where("admin_id",Auth::user()->id)->first();
+            return view('dashboard')->with(["data"=>$data]);
+        }
         return view('dashboard');
     })->name('dashboard');
     Route::get('user',[UserController::class,'userlist']);
@@ -34,6 +43,8 @@ Route::middleware('auth')->group(function(){
     Route::get('edit-todo/{id}',[TodoController::class,'editableTodo']);
     Route::post('update-todo',[TodoController::class,'updateTodo'])->name('update-todo');
     Route::get('assign-todo-list',[TodoController::class,'assignListOfTodo'])->name('assign-list');
+    Route::get('delete-todo/{id}',[TodoController::class,'deleteTodo']);
+
 
 
     Route::post("assign-todo",[TodoController::class,"AssignTodo"]);

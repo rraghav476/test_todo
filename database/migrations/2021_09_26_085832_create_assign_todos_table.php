@@ -16,12 +16,12 @@ class CreateAssignTodosTable extends Migration
         Schema::create('assign_todos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("todo_id");
-            $table->foreign("todo_id")->references("id")->on("todos");
+            $table->foreign("todo_id")->references("id")->on("todos")->onDelete('cascade');
             $table->date("completion_time");
             $table->unsignedBigInteger("assign_to");
-            $table->foreign("assign_to")->references("id")->on("users");
-            $table->unsignedBigInteger("assign_by");
-            $table->foreign("assign_by")->references("id")->on("users");
+            $table->foreign("assign_to")->references("id")->on("users")->onDelete('cascade');
+            $table->unsignedBigInteger("assign_by")->nullable();
+            $table->foreign("assign_by")->references("id")->on("users")->onDelete('set null');
             $table->timestamps();
         });
     }

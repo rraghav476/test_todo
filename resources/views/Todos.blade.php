@@ -4,12 +4,15 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Todo') }}
             </h2>
-            <a href="{{url('todo/create')}}">
-                <button class=" btn btn-primary leading-tight px-6 py-3 bg-blue-600 text-white-100 rounded-full  shadow">
-                   {{ __('+') }}
-                </button>
-                
-            </a>
+            @can('Admin')
+                <a href="{{url('todo/create')}}">
+                    <button class=" btn btn-primary leading-tight px-6 py-3 bg-blue-600 text-white-100 rounded-full  shadow">
+                    {{ __('+') }}
+                    </button>
+                    
+                </a>
+            @endcan
+
         </div>
     </x-slot>
 
@@ -111,7 +114,10 @@
                                 <th class="border px-6 py-4">name</th>
                                 <th class="border px-6 py-4">Description</th>
                                 <th class="border px-6 py-4">Create By</th>
+                                @can('Admin')
+                                    
                                 <th class="border px-6 py-4">Delete/Edit</th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>
@@ -123,10 +129,13 @@
                                 <x-table-column>{{$val["description"]}}</x-table-column>
 
                                 <x-table-column>{{$val["created_by"]}}</x-table-column>
+                                @can('Admin')
                                 <x-table-column><a href="edit-todo/{{$val['id']}}">Edit</a>/
                                 <a href="assign-todo/{{$val['id']}}">AssignTo</a>    
-                                /<a href="todo/delete/{{$val['id']}}">Delete</a>
+                                /<a href="delete-todo/{{$val['id']}}">Delete</a>
                                 </x-table-column>
+                                    
+                                @endcan
                             </tr>
 
                             @endforeach

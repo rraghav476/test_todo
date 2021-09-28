@@ -39,7 +39,7 @@ class TodoController extends Controller
             $todo = Todo::create(["name"=>$request->name,"created_by"=>$user->id,"description"=>$request->description]);
             $AssignTo = User::all();
             $data = $this->todoList();
-            return view('todos')->with(["msg"=>"Todo create successfully","data"=>$data,"assignTo"=>$AssignTo,"create"=>false]);
+            return view('todos')->with(["msg"=>"Todo create successfully","data"=>$data,"assignTo"=>$AssignTo,"op"=>5]);
         }catch(\Throwable $e){
             $errorData=["function"=>__FUNCTION__,"code"=>"UC-001"];
             $errorLog->ExceptionLogCreate($e,$errorData);
@@ -68,19 +68,21 @@ class TodoController extends Controller
             $data = $this->todoList();
             return view('Todos')->with(["msg"=>"Todo create successfully","data"=>$data,'op'=>5]);
         }catch(\Throwable $e){
+            
             $errorData=["function"=>__FUNCTION__,"code"=>"UC-001"];
             $errorLog->ExceptionLogCreate($e,$errorData);
             return redirect()->back()->with(["error"=>$e->getMessage()]);
         }
     }
 
-    public function deleteTodo(Request $request,Todo $todo,ExceptionLog $errorLog){
+    public function deleteTodo($todo,ExceptionLog $errorLog){
         try{
-            dd($todo);
+            $todo = Todo::find($todo);
             $todo->delete();
             $data = $this->todoList();
-            return redirect()->back()->with(["msg"=>"Todo Delete successfully","data"=>$data]);
+            return view('todos')->with(["msg"=>"Todo Delete successfully","data"=>$data,'op'=>5]);
         }catch(\Throwable $e){
+            dd($e);
             $errorData=["function"=>__FUNCTION__,"code"=>"UC-001"];
             $errorLog->ExceptionLogCreate($e,$errorData);
             return redirect()->back()->with(["error"=>$e->getMessage()]);
@@ -138,6 +140,7 @@ class TodoController extends Controller
             if(!$create){
                 throw new \Exception("todo not Assign");
             }
+            $data = $this->todoList();
             return view('Todos')->with(["msg"=>"Todo Assign successfully","data"=>$data,'op'=>5]);
         }catch(\Throwable $e){
             $errorData=["function"=>__FUNCTION__,"code"=>"UC-001"];
